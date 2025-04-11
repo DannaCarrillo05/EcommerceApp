@@ -15,14 +15,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import co.dannacarrillo.ecommerceapp.ui.theme.EcommerceAppTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            EcommerceAppTheme {
+
 
                 val myNavController = rememberNavController()
                 val myStartDestination: String = "login"
@@ -37,9 +37,12 @@ class MainActivity : ComponentActivity() {
                     composable("register"){
                         RegisterScreen(myNavController)
                     }
+                    composable("home") {
+                        HomeScreen()
+                    }
                 }
 
-            }
+
         }
     }
 }
