@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1055933509499",
+    "project_id": "ecommerceapp-1b78f",
+    "storage_bucket": "ecommerceapp-1b78f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055933509499:android:6715473b785d9cf37117de",
+        "android_client_info": {
+          "package_name": "co.dannacarrillo.ecommerceapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIhTCE7LFUmJ1JSCWG2OAnf9NE2IHdeg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
