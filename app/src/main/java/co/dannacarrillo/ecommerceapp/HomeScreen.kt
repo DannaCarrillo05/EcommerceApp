@@ -34,14 +34,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onClickLogout: () -> Unit = {}) {
+    val auth = Firebase.auth
     Scaffold(
         topBar = {
             val scrollBehavior =
                 TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
             MediumTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -49,7 +53,7 @@ fun HomeScreen() {
                 ),
                 title = {
                     Text(
-                        "Bienvenido/a",
+                        "Medium Top App Bar",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -63,7 +67,10 @@ fun HomeScreen() {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* do something */ }) {
+                    IconButton(onClick = {
+                        auth.signOut()
+                        onClickLogout()
+                    }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                             contentDescription = "Localized description"
@@ -75,30 +82,38 @@ fun HomeScreen() {
         }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            Text(text = "Promociones destacadas",
-                modifier = Modifier.padding(top = 16.dp, start = 16.dp, bottom = 8.dp)
-                )
 
-            val listadoPromociones = listOf(
-                "https://img.freepik.com/psd-gratis/plantilla-pagina-destino-buen-fin-diseno-plano_23-2150851933.jpg",
-                "https://img.pikbest.com/backgrounds/20201007/special-offer-sale-fire-burn-template-discount-banner-promotion-concept-design-v_3122874jpg!w700wp",
-                "https://img.freepik.com/vector-premium/plantilla-banner-promocion-venta_74379-177.jpg",
-                "https://img.freepik.com/psd-premium/promocion-plantilla-banner-descuento-mega-venta_501916-114.jpg",
-                "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/black-friday-poster-design-template-fda328238fd634d3c320ec9176dae814_screen.jpg?ts=1606403389"
+            Text(
+                text = "Promociones destacadas",
+                modifier = Modifier
+                    .padding(
+                        top = 16.dp,
+                        start = 16.dp,
+                        bottom = 8.dp
+                    )
             )
 
-            LazyRow(modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
+            val listadoPromociones = listOf(
+                "https://img.freepik.com/vector-gratis/plantilla-banner-venta-plano-horizontal-foto_23-2149000923.jpg",
+                "https://static.vecteezy.com/system/resources/previews/005/513/456/non_2x/big-sale-banner-promotion-abstract-background-yellow-blue-color-design-vector.jpg",
+                "https://img.freepik.com/vector-gratis/plantilla-banner-horizontal-degradado-ventas-buen-fin_23-2150873588.jpg",
+                "https://trazoweb.co/wp-content/uploads/2022/12/BN006.jpg",
+                "https://img.freepik.com/vetores-gratis/modelo-de-banner-de-venda-horizontal-abstrato-plano_23-2149017816.jpg",
+            )
+
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                item {CardPromo(listadoPromociones[0]) }
-                item {CardPromo(listadoPromociones[1]) }
-                item {CardPromo(listadoPromociones[2]) }
-                item {CardPromo(listadoPromociones[3]) }
-                item {CardPromo(listadoPromociones[4]) }
+                for (promoUrl in listadoPromociones) {
+                    item {
+                        CardPromo(urlImage = promoUrl)
+                    }
+                }
             }
-
         }
-
     }
 }
 
@@ -108,15 +123,14 @@ fun HomeScreenPreview() {
     HomeScreen()
 }
 
-
+//Preview
 @Composable
-fun CardPromo(urlImage : String) {
+fun CardPromo(urlImage: String) {
     Card(
         modifier = Modifier
             .height(180.dp)
             .width(300.dp),
         shape = RoundedCornerShape(16.dp)
-
     ) {
         Image(
             painter = rememberAsyncImagePainter(urlImage),
